@@ -47,7 +47,7 @@ export default {
       } else {
         // console.log(self)
         self.$http
-          .post("/api/v1/login", {
+          .post("/login", {
             memberName: self.userName, //用户名
             memberPass: self.userPwd, //密码
           })

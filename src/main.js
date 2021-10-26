@@ -2,31 +2,31 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import axios from "axios"
+import {$request} from "./utils/request.js"
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
-Vue.prototype.$http = axios
-Vue.config.productionTip = false
 
-// 路由守卫（拦截登录状态）
+Vue.config.productionTip = false
+Vue.prototype.$http=$request
+Vue.use(ElementUI);
+
+//全局路由守卫
 router.beforeEach(function(to,from,next){
-  //console.log(to,from);
-  var manager = JSON.parse(sessionStorage.getItem("manager"));
-  //console.log(manager)
-  if (manager && manager.token) {
-    if(to.name == "Login" && to.path == "/"){
-      next("/home");
-    } else{
-      next();
-    }
-  } else{
-    if (to.name != "Login" && to.path != "/") {
-      next("/");
-    } else{
-      next();
-    }
-  }
+	var manager=JSON.parse(sessionStorage.getItem("manager"))
+	if(manager && manager.token){
+		if(to.name=="Login" && to.path=="/"){
+			next("/home") //只放行 “/home”
+		}else{
+			next()//放行，访问任何路由地址都可以
+			//next(false)
+		}
+	}else{
+		if(to.name!="Login" && to.path!="/"){
+			next("/")
+		}else{
+			next()
+		}
+	}
 })
 
 new Vue({

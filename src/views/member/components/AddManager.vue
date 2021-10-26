@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 添加的弹框 -->
-    <el-dialog title="添加管理员" :visible.sync="addVisible" width="30%" @close="closeAddManager">
+    <el-dialog title="添加管理员" :visible.sync="addVisible" width="30%" :before-close="closeAddManager">
       <el-form :label-position="labelPosition" label-width="80px" :model="manager" ref="addManager">
         <el-form-item label="管理员" prop="member"
           :rules="[{ required: true, message: '请输入管理员', trigger: 'blur' },]">
@@ -14,11 +14,7 @@
         <el-form-item label="权限" prop="role"
           :rules="[{ required: true, message: '请选择权限', trigger: 'blur' }]">
           <el-select v-model="manager.role" clearable placeholder="-请选择-">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value">
+            <el-option v-for="item in roleList" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
         </el-form-item>
@@ -45,7 +41,7 @@ export default {
         password: "",
         role: "",
       },
-      options: [{
+      roleList: [{
           value: '0',
           label: '超级管理员'
         }, {
@@ -67,18 +63,15 @@ export default {
       var self = this;
       this.$refs[params].validate((valid) => {
         if (valid) {
-          var manager = JSON.parse(sessionStorage.getItem("manager"));
-          self
-            .$http({
-              url: "/api/v1/adminAdd",
+          console.log(self.manager)
+          //var manager = JSON.parse(sessionStorage.getItem("manager"));
+          self.$http({
+              url: "/adminAdd",
               method: "post",
-              headers: {
-                token: manager.token,
-              },
               data: {
-                memberName: self.manager.member, //用户名
-                memberPass: self.manager.password, //密码
-                role: self.manager.role, //权限
+                "memberName": self.manager.member, //用户名
+                "memberPass": self.manager.password, //密码
+                "role": self.manager.role, //权限
               },
             })
             .then(function (res) {

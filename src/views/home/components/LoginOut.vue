@@ -1,7 +1,7 @@
 <template>
   <div id="loginOut">
     <el-avatar :size="40" :src="circleUrl"></el-avatar>
-    <el-dropdown trigger="click">
+    <el-dropdown trigger="click"  @command="loginOut">
       <span class="el-dropdown-link">
         admin<i class="el-icon-arrow-down el-icon--right"></i>
       </span>
@@ -23,6 +23,20 @@ export default {
         "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
     };
   },
+  methods:{
+    loginOut(){
+      var self = this;
+      self.$message({
+        message: "恭喜你。推出成功",
+        type: "success",
+        duration: 1000,
+        onClose: function(){
+          sessionStorage.removeItem("manager");
+          self.$router.push({path: "/"});
+        }
+      });
+    }
+  }
 };
 </script>
 

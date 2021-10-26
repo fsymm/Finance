@@ -2,7 +2,7 @@
   <div>
     <!-- 添加按钮 -->
     <div class="menu">
-      <el-button type="primary" @click="openAddMember">添加</el-button>
+      <el-button type="primary" size="small" @click="openAddMember">添加</el-button>
     </div>
     <!-- 管理员展示 -->
     <el-table :data="managerList" style="width: 100%" v-loading="loading">
@@ -19,7 +19,7 @@
       </el-table-column>
       <el-table-column label="操作" width="180">
         <template v-slot="scope">
-          <el-button type="primary" size="mini">编辑</el-button>&nbsp;&nbsp;
+          <el-button type="primary" size="mini" @click="openEditorManager(scope.row)">编辑</el-button>&nbsp;&nbsp;
           <el-popconfirm title="你确定要删除此用户吗？" @confirm="deleteManager(scope.row.id)">
             <el-button slot="reference" type="danger" size="mini">删除</el-button>
           </el-popconfirm>
@@ -32,20 +32,24 @@
       layout="prev, pager, next" :page-size="5" @current-change="getManagerList"
       :total="managerCount"></el-pagination>
     <AddManager :addVisible="addVisible"></AddManager>
+    <EditorManager :EditorVisible = "EditorVisible" :editorManager = "editorManager"></EditorManager>
   </div>
 </template>
 
 <script>
 import AddManager from "./components/AddManager.vue"
+import EditorManager from "./components/EditorManager.vue"
 export default {
   name: "Member",
-  components:{AddManager},
+  components:{AddManager,EditorManager},
   data() {
     return {
       addVisible: false,
+      EditorVisible: false,
       managerCount:0,
       loading:false,
       managerList: [],
+      editorManager:{},
     };
   },
   mounted() {
@@ -56,16 +60,21 @@ export default {
     openAddMember() {
       this.addVisible = true;
     },
+    openEditorManager(params){
+      console.log(params)
+      this.editorManager = params;
+      this.EditorVisible = true;
+    },
     getManagerList(page){
       var self = this;
       self.loading = true;
       sessionStorage.setItem("memberPage",page);
       var manager = JSON.parse(sessionStorage.getItem("manager"));
       self.$http
-      .get("/api/v1/adminList", {
-        headers: {
-          token: manager.token,
-        },
+      .get("/adminList", {
+        // headers: {
+        //   token: manager.token,
+        // },
         params: {
           page: page,
           pageSize: 5,
@@ -89,10 +98,10 @@ export default {
     deleteManager(getId){
       //console.log(getId);
       var self = this;
-      self.$http.delete("/api/v1/adminDel",{
-        headers:{
-          token:JSON.parse(sessionStorage.getItem("manager")).token
-        },
+      self.$http.delete("/adminDel",{
+        // headers:{
+        //   token:JSON.parse(sessionStorage.getItem("manager")).token
+        // },
         params:{"id":getId}
       }).then(function(res){
         //console.log(res);
