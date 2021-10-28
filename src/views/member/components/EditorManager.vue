@@ -1,9 +1,8 @@
 <template>
   <div>
     <!-- 编辑的弹框 -->
-    <el-dialog title="编辑管理员" :visible.sync="EditorVisible" width="30%"
-      :before-close="closeEditorManager">
-      <el-form :label-position="labelPosition" label-width="80px" ref="addManager">
+    <el-dialog title="编辑管理员" :visible.sync="EditorVisible" width="30%" :before-close="closeEditorManager">
+      <el-form :label-position="labelPosition" label-width="80px" ref="">
         <el-form-item label="管理员" prop="userName"
           :rules="[{ required: true, message: '请输入管理员', trigger: 'blur' },]">
           <el-input v-model="editorManager.memberName" placeholder="请输入管理员"></el-input>

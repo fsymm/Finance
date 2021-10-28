@@ -21,9 +21,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeAddManager">取 消</el-button>
-        <el-button type="primary" @click="addMember('addManager')"
-          >添 加</el-button
-        >
+        <el-button type="primary" @click="addMember('addManager')">添 加</el-button>
       </span>
     </el-dialog>
   </div>
@@ -63,7 +61,7 @@ export default {
       var self = this;
       this.$refs[params].validate((valid) => {
         if (valid) {
-          console.log(self.manager)
+          console.log(self.manager);
           //var manager = JSON.parse(sessionStorage.getItem("manager"));
           self.$http({
               url: "/adminAdd",

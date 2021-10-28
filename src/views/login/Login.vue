@@ -1,7 +1,7 @@
 <template>
   <div id="login" v-loading="loading" element-loading-text="正在登陆中...">
     <main>
-      <h2>Finance 财务管理系统</h2>
+      <h2>Finance 财务后台管理系统</h2>
       <input type="text" v-model="userName" placeholder="请输入用户名" />
       <input type="password" v-model="userPwd" placeholder="请输入密码" />
       <!-- <button @click="login">登录</button> -->
@@ -71,14 +71,14 @@ export default {
                   onClose: function () {
                     self.loading = false;
                     // 跳转之前，把用户信息存储起来
-                    sessionStorage.setItem("manager",JSON.stringify(res.data.data))
+                    sessionStorage.setItem("manager",JSON.stringify(res.data.data));
                     self.$router.push({ path: "/home" });
                   },
                 });
               }
             },
             function (error) {
-              // console.log(error)
+              // console.log(error);
             }
           );
       }
@@ -99,7 +99,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(../../assets/images/bg.png) no-repeat 0 0;
+  background: url(../../assets/images/bg01.jpg) no-repeat 0 0;
   background-size: 100% 100%;
 }
 #login main {

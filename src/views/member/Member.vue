@@ -27,9 +27,7 @@
       </el-table-column>
     </el-table>
     <!-- 分页 -->
-    <el-pagination
-      background
-      layout="prev, pager, next" :page-size="5" @current-change="getManagerList"
+    <el-pagination background layout="prev, pager, next" :page-size="5" @current-change="getManagerList"
       :total="managerCount"></el-pagination>
     <AddManager :addVisible="addVisible"></AddManager>
     <EditorManager :EditorVisible = "EditorVisible" :editorManager = "editorManager"></EditorManager>
@@ -69,7 +67,7 @@ export default {
       var self = this;
       self.loading = true;
       sessionStorage.setItem("memberPage",page);
-      var manager = JSON.parse(sessionStorage.getItem("manager"));
+      // var manager = JSON.parse(sessionStorage.getItem("manager"));
       self.$http
       .get("/adminList", {
         // headers: {
